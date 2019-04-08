@@ -9,13 +9,36 @@
 import UIKit
 import MapKit
 import CoreLocation
+import CoreData
 
 class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
 
     @IBOutlet weak var nameText: UITextField!
     @IBOutlet weak var commentText: UITextField!
     
+    
+    var chosenLatitude: Double = 0      // scope to class to use in various functions
+    var chosenLongitude: Double = 0      // scope to class to use in various functions
+    
+    
     @IBAction func saveBtnClicked(_ sender: Any) {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context = appDelegate.persistentContainer.viewContext
+        let newLocation = NSEntityDescription.insertNewObject(forEntityName: "Locations", into: context)
+        
+        newLocation.setValue(nameText.text, forKey: "title")
+        newLocation.setValue(commentText.text, forKey: "subtitle")
+        newLocation.setValue(chosenLatitude, forKey: "latitude")
+        newLocation.setValue(chosenLongitude, forKey: "longitude")
+        
+        
+        
+        do {
+            try context.save()
+            print("saved data in context")
+        } catch{
+            print("Error in saving to context")
+        }
         
     }
     
@@ -62,29 +85,13 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
             // let chosenCoordinates = self.mapView.convert(<#T##point: CGPoint##CGPoint#>, toCoordinateFrom: <#T##UIView?#>)
             let chosenCoordinates = self.mapView.convert(touchedPoint, toCoordinateFrom: self.mapView)
             
+            self.chosenLatitude = chosenCoordinates.latitude
+            self.chosenLongitude = chosenCoordinates.longitude
+            
             let annotation = MKPointAnnotation()
-            // let annotation = MKPointAnnotation()
             annotation.coordinate = chosenCoordinates
             annotation.title = nameText.text
             annotation.subtitle = commentText.text
-            // annotation.canShowCallOut = true
-/*
-            // below bodged from recommendation https://www.hackingwithswift.com/example-code/location/how-to-add-annotations-to-mkmapview-using-mkpointannotation-and-mkpinannotationview (trying to fix title, which was my mistake)
-            let identifier = "Annotation"
-            
-            var annotationView = self.mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
-            if annotationView == nil
-            {
-                annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
-                annotationView!.canShowCallout = true
-                print("set canshowcallout")
-            }
-            else
-            {
-                annotationView!.annotation = annotation
-            }
-*/
-            // above bodged from recommendation https://www.hackingwithswift.com/example-code/location/how-to-add-annotations-to-mkmapview-using-mkpointannotation-and-mkpinannotationview (trying to fix title, which was my mistake)
             
             self.mapView.addAnnotation(annotation)
         }
