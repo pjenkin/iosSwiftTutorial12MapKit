@@ -15,6 +15,7 @@
 		948D243D225B4E8D00DD6F01 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 948D243B225B4E8D00DD6F01 /* LaunchScreen.storyboard */; };
 		948D2448225B4E8D00DD6F01 /* Travel_MapTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 948D2447225B4E8D00DD6F01 /* Travel_MapTests.swift */; };
 		948D2453225B4E8D00DD6F01 /* Travel_MapUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 948D2452225B4E8D00DD6F01 /* Travel_MapUITests.swift */; };
+		948D2462225B567200DD6F01 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 948D2461225B567200DD6F01 /* CoreLocation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +50,7 @@
 		948D244E225B4E8D00DD6F01 /* Travel MapUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Travel MapUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		948D2452225B4E8D00DD6F01 /* Travel_MapUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Travel_MapUITests.swift; sourceTree = "<group>"; };
 		948D2454225B4E8D00DD6F01 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		948D2461225B567200DD6F01 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +58,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				948D2462225B567200DD6F01 /* CoreLocation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -83,6 +86,7 @@
 				948D2446225B4E8D00DD6F01 /* Travel MapTests */,
 				948D2451225B4E8D00DD6F01 /* Travel MapUITests */,
 				948D242D225B4E8D00DD6F01 /* Products */,
+				948D2460225B567200DD6F01 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -126,6 +130,14 @@
 				948D2454225B4E8D00DD6F01 /* Info.plist */,
 			);
 			path = "Travel MapUITests";
+			sourceTree = "<group>";
+		};
+		948D2460225B567200DD6F01 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				948D2461225B567200DD6F01 /* CoreLocation.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

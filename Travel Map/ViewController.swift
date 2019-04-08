@@ -8,6 +8,7 @@
 
 import UIKit
 import MapKit
+import CoreLocation
 
 class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
 
@@ -24,6 +25,12 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         locationManager.desiredAccuracy = kCLLocationAccuracyBest   // NB battery drain with accuracy
         locationManager.requestWhenInUseAuthorization() // how often to as for permission (cf adding Privacy-Location when in use’ in Info.plist - )
         locationManager.startUpdatingLocation() // NB function didUpdateLocation function
+        
+        // declare gesture recognition
+        let recognizer = UILongPressGestureRecognizer(target: self, action: #selector(ViewController.chooseLocation(gestureRecognizer:)))
+        recognizer.minimumPressDuration = 3    // 3 seconds press
+        mapView.addGestureRecognizer(recognizer)
+        
     }
     
     // function to handle location udate NB parameters
@@ -39,7 +46,20 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         self.mapView.setRegion(region, animated: true)
     }
     
-    
+    func chooseLocation(gestureRecognizer: UILongPressGestureRecognizer)      // bespoke handler function
+    {
+        if gestureRecognizer.state == UIGestureRecognizerState.began
+        {
+            let touchedPoint = gestureRecognizer.location(in: self.mapView)
+            // let chosenCoordinates = self.mapView.convert(<#T##point: CGPoint##CGPoint#>, toCoordinateFrom: <#T##UIView?#>)
+            let chosenCoordinates = self.mapView.convert(touchedPoint, toCoordinateFrom: self.mapView)
+            let annotation = MKPointAnnotation()
+            annotation.coordinate = chosenCoordinates
+            annotation.title = "A new annotation"
+            annotation.title = "This is the point chosen"
+            self.mapView.addAnnotation(annotation)
+        }
+    }
 
 
     override func didReceiveMemoryWarning() {
