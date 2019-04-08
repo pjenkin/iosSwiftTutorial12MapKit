@@ -26,7 +26,68 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     var transmittedSubtitle = ""
     var transmittedLatitude = 0.0
     var transmittedLongitude = 0.0
+    
+    var requestCLLocation = CLLocation()    // to use in bespoke annotation
         
+    // 1 of 2 - customising annotation, to show new kind of non-standard button bespoke for this app
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        //
+        
+        if annotation is MKUserLocation {
+            return nil
+        }   // don't do anything if the map is opening for the purpose only of showing the current user location (because directions to current location would be pointless!)
+        
+        let reuseId = "myAnnotation"
+        
+        var pinView = mapView.dequeueReusableAnnotationView(withIdentifier: reuseId) as? MKPinAnnotationView
+        // reuse just the 1 annotation view (good for memory resources)
+        
+        if pinView == nil
+        {
+            pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
+            pinView?.canShowCallout = true
+            pinView?.pinTintColor = UIColor.cyan
+            
+            
+            let button = UIButton(type: .detailDisclosure)      // .detailDisclosure == UIButton.detailDisclosure - detailDisclosure is 'i' in circle
+            pinView?.rightCalloutAccessoryView = button         // on right hand side (could've been on left)
+        }
+        else    // if pinView already existent (already defined, and reused)
+        {
+            pinView?.annotation = annotation
+        }
+        return pinView
+    }
+    
+    // 2 of 2 - for custom annotation, to pull up driving directions from current location to that location
+    //func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        //<#code#>
+    //} // had to auto-complete by calloutAccess..... 
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        if transmittedLatitude != 0 && transmittedLongitude != 0
+        {
+            self.requestCLLocation = CLLocation(latitude: transmittedLatitude, longitude: transmittedLongitude)    // to use in reverse geolocation below
+        }
+        
+        //CLGeocoder().reverseGeocodeLocation(<#T##location: CLLocation##CLLocation#>, completionHandler: <#T##CLGeocodeCompletionHandler##CLGeocodeCompletionHandler##([CLPlacemark]?, Error?) -> Void#>)
+        CLGeocoder().reverseGeocodeLocation(requestCLLocation)
+        {
+            (placemarks, error) in
+            if let placemark = placemarks
+            {
+                if placemark.count > 0        // if successfully reverse geo-coded
+                {
+                    let newPlaceMark = MKPlacemark(placemark: placemark[0])
+                    let item = MKMapItem(placemark: newPlaceMark)
+                    item.name = self.transmittedTitle
+                    
+                    // launch a screen showing travel directions to/fro
+                    let launchOptions = [MKLaunchOptionsDirectionsModeKey : MKLaunchOptionsDirectionsModeDriving]
+                    item.openInMaps(launchOptions: launchOptions)
+                }
+            }
+        }
+    }
     
     
     @IBAction func saveBtnClicked(_ sender: Any) {

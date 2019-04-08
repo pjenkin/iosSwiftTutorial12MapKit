@@ -703,7 +703,7 @@ selectedSimpson = Simpson()
     }
 
 
-11-88 Core Data
+11-80 Core Data
 tick ‘Use Core Data’ in XCode new project
 
 In place of UserDefaults (key/value pairs), Core Data will persist lots of data - serialised via interface into XML, binary or SQLLite
@@ -1143,7 +1143,7 @@ then (as ever) subclass and
     }
 
 
-12-98 Retrieve Coredata of location info
+12-98 Retrieve Coredata of location info (as per 11-85)
 
 func fetchData()
     {
@@ -1214,7 +1214,128 @@ func fetchData()
 
 //      and call fetchData from didViewLoad
 
-12-99 
+12-99  pass data between VIewCotntrollers
 
-— NB careful copy/paste into drive - Core Data links somewhere on drive
+
+corresponding sets of array variables in ViewControllers
+
+in firstViewCOntroller:
+// additional delegate for when a tableView row (ie location title) selected
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        chosenTitle = titleArray[indexPath.row]     // pass over data to other ViewController (ie the map view)
+        chosenSubtitle = subtitleArray[indexPath.row]
+        chosenLatitude = Double(latitudeArray[indexPath.row])
+        chosenLongitude = Double(longitudeArray[indexPath.row])
+    }
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "toMapVC"
+        {
+            let destinationVC = segue.destination as! ViewController
+            // pass over/transmit data to the other ViewController
+            destinationVC.transmittedTitle = self.chosenTitle
+            destinationVC.transmittedSubtitle = self.chosenSubtitle
+            destinationVC.transmittedLatitude = self.chosenLatitude
+            destinationVC.transmittedLongitude = self.chosenLongitude
+        }
+    }
+    
+
+
+
+12-101
+    // customising annotation, to show new kind of non-standard button bespoke for this app
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        
+        if annotation is MKUserLocation {
+            return nil
+        }
+        
+        let reuseId = "myAnnotation"
+        
+        var pinView = mapView.dequeueReusableAnnotationView(withIdentifier: reuseId) as? MKPinAnnotationView
+	// reuse just the 1 annotation view (good for memory resources)
+        
+        if pinView == nil
+        {
+            pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
+            pinView?.canShowCallout = true
+            pinView?.pinTintColor = UIColor.red
+            
+            
+            let button = UIButton(type: .detailDisclosure)      // .detailDisclosure == UIButton.detailDisclosure
+            pinView?.rightCalloutAccessoryView = button
+        }
+        else    // if pinView already existent (already defined, and reused)
+        {
+            pinView?.annotation = annotation
+        }
+        return pinView
+    }
+
+12-102 handler function for mapView Map View so that, if the map is not being used to display current location (ie is used in browsing other locations instead) then alter to show a bespoke annotation which, when clicked, will show driving directions
+
+
+    // 1 of 2 - customising annotation, to show new kind of non-standard button bespoke for this app
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        //
+        
+        if annotation is MKUserLocation {
+            return nil
+        }   // don't do anything if the map is opening for the purpose only of showing the current user location (because directions to current location would be pointless!)
+        
+        let reuseId = "myAnnotation"
+        
+        var pinView = mapView.dequeueReusableAnnotationView(withIdentifier: reuseId) as? MKPinAnnotationView
+        // reuse just the 1 annotation view (good for memory resources)
+        
+        if pinView == nil
+        {
+            pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
+            pinView?.canShowCallout = true
+            pinView?.pinTintColor = UIColor.cyan
+            
+            
+            let button = UIButton(type: .detailDisclosure)      // .detailDisclosure == UIButton.detailDisclosure - detailDisclosure is 'i' in circle
+            pinView?.rightCalloutAccessoryView = button         // on right hand side (could've been on left)
+        }
+        else    // if pinView already existent (already defined, and reused)
+        {
+            pinView?.annotation = annotation
+        }
+        return pinView
+    }
+    
+    // 2 of 2 - for custom annotation, to pull up driving directions from current location to that location
+    //func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        //<#code#>
+    //} // had to auto-complete by calloutAccess..... 
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        if transmittedLatitude != 0 && transmittedLongitude != 0
+        {
+            self.requestCLLocation = CLLocation(latitude: transmittedLatitude, longitude: transmittedLongitude)    // to use in reverse geolocation below
+        }
+        
+        //CLGeocoder().reverseGeocodeLocation(<#T##location: CLLocation##CLLocation#>, completionHandler: <#T##CLGeocodeCompletionHandler##CLGeocodeCompletionHandler##([CLPlacemark]?, Error?) -> Void#>)
+        CLGeocoder().reverseGeocodeLocation(requestCLLocation)
+        {
+            (placemarks, error) in
+            if let placemark = placemarks
+            {
+                if placemark.count > 0        // if successfully reverse geo-coded
+                {
+                    let newPlaceMark = MKPlacemark(placemark: placemark[0])
+                    let item = MKMapItem(placemark: newPlaceMark)
+                    item.name = self.transmittedTitle
+                    
+                    // launch a screen showing travel directions to/fro
+                    let launchOptions = [MKLaunchOptionsDirectionsModeKey : MKLaunchOptionsDirectionsModeDriving]
+                    item.openInMaps(launchOptions: launchOptions)
+                }
+            }
+        }
+    }
+
+
+
 
