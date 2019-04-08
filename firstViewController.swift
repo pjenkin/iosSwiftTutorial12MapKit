@@ -38,6 +38,12 @@ class firstViewController: UIViewController, UITableViewDelegate, UITableViewDat
         fetchData()
         
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        // look out for notification arriving from other View Controller, there as newLocationRecorded
+        NotificationCenter.default.addObserver(self, selector: #selector(firstViewController.fetchData), name: NSNotification.Name(rawValue: "newLocationRecorded"), object: nil)
+        // so that addition of location by user will take them back to table view, which'll be updated to show new location
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

@@ -48,6 +48,10 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
             print("Error in saving to context")
         }
         
+        // look out for /observe this notification in other view controller
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "newLocationRecorded"), object: nil)
+        _ = self.navigationController?.popViewController(animated: true)
+        
     }
     
     
