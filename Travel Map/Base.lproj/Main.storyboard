@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -21,20 +22,58 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="CEJ-co-wUe">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="CEJ-co-wUe">
+                                <rect key="frame" x="0.0" y="167" width="375" height="500"/>
                             </mapView>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Name of the place" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="nJl-Sl-aFb">
+                                <rect key="frame" x="62" y="28" width="250" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="250" id="H3V-NJ-g58"/>
+                                </constraints>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalCompressionResistancePriority="1000" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter your comment please" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ljM-ft-AcD">
+                                <rect key="frame" x="62" y="81" width="250" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="250" id="CRW-tv-m2g"/>
+                                </constraints>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="U8B-TX-ijH">
+                                <rect key="frame" x="325" y="119" width="34" height="30"/>
+                                <state key="normal" title="Save"/>
+                                <connections>
+                                    <action selector="saveBtnClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="GbC-Ib-eHh"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="ljM-ft-AcD" firstAttribute="top" secondItem="nJl-Sl-aFb" secondAttribute="bottom" constant="23" id="3fT-s6-XPh"/>
+                            <constraint firstItem="CEJ-co-wUe" firstAttribute="top" secondItem="U8B-TX-ijH" secondAttribute="bottom" constant="18" id="6xN-hU-uuB"/>
+                            <constraint firstItem="CEJ-co-wUe" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="7E9-kg-PlZ"/>
+                            <constraint firstItem="nJl-Sl-aFb" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="DYI-Zu-XxI"/>
+                            <constraint firstItem="U8B-TX-ijH" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="OGC-Cc-mSF"/>
+                            <constraint firstItem="CEJ-co-wUe" firstAttribute="centerX" secondItem="ljM-ft-AcD" secondAttribute="centerX" id="SI9-sf-Gvw"/>
+                            <constraint firstItem="CEJ-co-wUe" firstAttribute="bottom" secondItem="wfy-db-euE" secondAttribute="top" id="hfy-0c-T8M"/>
+                            <constraint firstItem="nJl-Sl-aFb" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="8" id="jmN-uG-f05"/>
+                            <constraint firstItem="CEJ-co-wUe" firstAttribute="centerX" secondItem="nJl-Sl-aFb" secondAttribute="centerX" id="tp3-Ol-1ek"/>
+                            <constraint firstItem="U8B-TX-ijH" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="99" id="z4l-iu-JUA"/>
+                        </constraints>
                     </view>
                     <connections>
+                        <outlet property="commentText" destination="ljM-ft-AcD" id="BT0-jV-xpb"/>
                         <outlet property="mapView" destination="CEJ-co-wUe" id="4f9-0W-OIi"/>
+                        <outlet property="nameText" destination="nJl-Sl-aFb" id="isw-po-MuZ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="24.800000000000001" y="35.532233883058474"/>
+            <point key="canvasLocation" x="21.600000000000001" y="69.715142428785612"/>
         </scene>
     </scenes>
 </document>

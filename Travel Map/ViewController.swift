@@ -12,6 +12,14 @@ import CoreLocation
 
 class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
 
+    @IBOutlet weak var nameText: UITextField!
+    @IBOutlet weak var commentText: UITextField!
+    
+    @IBAction func saveBtnClicked(_ sender: Any) {
+        
+    }
+    
+    
     @IBOutlet weak var mapView: MKMapView!
     
     var locationManager = CLLocationManager()
@@ -53,13 +61,37 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
             let touchedPoint = gestureRecognizer.location(in: self.mapView)
             // let chosenCoordinates = self.mapView.convert(<#T##point: CGPoint##CGPoint#>, toCoordinateFrom: <#T##UIView?#>)
             let chosenCoordinates = self.mapView.convert(touchedPoint, toCoordinateFrom: self.mapView)
+            
             let annotation = MKPointAnnotation()
+            // let annotation = MKPointAnnotation()
             annotation.coordinate = chosenCoordinates
-            annotation.title = "A new annotation"
-            annotation.title = "This is the point chosen"
+            annotation.title = nameText.text
+            annotation.subtitle = commentText.text
+            // annotation.canShowCallOut = true
+/*
+            // below bodged from recommendation https://www.hackingwithswift.com/example-code/location/how-to-add-annotations-to-mkmapview-using-mkpointannotation-and-mkpinannotationview (trying to fix title, which was my mistake)
+            let identifier = "Annotation"
+            
+            var annotationView = self.mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
+            if annotationView == nil
+            {
+                annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+                annotationView!.canShowCallout = true
+                print("set canshowcallout")
+            }
+            else
+            {
+                annotationView!.annotation = annotation
+            }
+*/
+            // above bodged from recommendation https://www.hackingwithswift.com/example-code/location/how-to-add-annotations-to-mkmapview-using-mkpointannotation-and-mkpinannotationview (trying to fix title, which was my mistake)
+            
             self.mapView.addAnnotation(annotation)
         }
     }
+    
+    
+    
 
 
     override func didReceiveMemoryWarning() {
