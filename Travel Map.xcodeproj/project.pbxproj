@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		944EC153225B7AF10080F5CB /* firstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 944EC152225B7AF10080F5CB /* firstViewController.swift */; };
 		948D2430225B4E8D00DD6F01 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 948D242F225B4E8D00DD6F01 /* AppDelegate.swift */; };
 		948D2432225B4E8D00DD6F01 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 948D2431225B4E8D00DD6F01 /* ViewController.swift */; };
 		948D2435225B4E8D00DD6F01 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 948D2433225B4E8D00DD6F01 /* Main.storyboard */; };
@@ -36,6 +37,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		944EC152225B7AF10080F5CB /* firstViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = firstViewController.swift; path = ../firstViewController.swift; sourceTree = "<group>"; };
 		948D242C225B4E8D00DD6F01 /* Travel Map.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Travel Map.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		948D242F225B4E8D00DD6F01 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		948D2431225B4E8D00DD6F01 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -103,6 +105,7 @@
 		948D242E225B4E8D00DD6F01 /* Travel Map */ = {
 			isa = PBXGroup;
 			children = (
+				944EC152225B7AF10080F5CB /* firstViewController.swift */,
 				948D242F225B4E8D00DD6F01 /* AppDelegate.swift */,
 				948D2431225B4E8D00DD6F01 /* ViewController.swift */,
 				948D2433225B4E8D00DD6F01 /* Main.storyboard */,
@@ -277,6 +280,7 @@
 				948D2432225B4E8D00DD6F01 /* ViewController.swift in Sources */,
 				948D2430225B4E8D00DD6F01 /* AppDelegate.swift in Sources */,
 				948D2438225B4E8D00DD6F01 /* Travel_Map.xcdatamodeld in Sources */,
+				944EC153225B7AF10080F5CB /* firstViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -523,6 +527,7 @@
 				948D2459225B4E8D00DD6F01 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		948D245A225B4E8D00DD6F01 /* Build configuration list for PBXNativeTarget "Travel MapTests" */ = {
 			isa = XCConfigurationList;
@@ -531,6 +536,7 @@
 				948D245C225B4E8D00DD6F01 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		948D245D225B4E8D00DD6F01 /* Build configuration list for PBXNativeTarget "Travel MapUITests" */ = {
 			isa = XCConfigurationList;
@@ -539,6 +545,7 @@
 				948D245F225B4E8D00DD6F01 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
