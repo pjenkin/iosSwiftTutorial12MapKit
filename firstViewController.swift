@@ -19,6 +19,13 @@ class firstViewController: UIViewController, UITableViewDelegate, UITableViewDat
     var latitudeArray = [Double]()
     var longitudeArray = [Double]()
     
+    // cf ViewController for chosen... transmitted... variable correspondence for passing data between ViewControllers
+    var chosenTitle = ""
+    var chosenSubtitle = ""
+    var chosenLatitude = 0.0
+    var chosenLongitude = 0.0
+
+    
     override func viewDidLoad() {
  
         super.viewDidLoad()
@@ -104,6 +111,30 @@ class firstViewController: UIViewController, UITableViewDelegate, UITableViewDat
         cell.textLabel?.text = titleArray[indexPath.row]
         return cell
     }
+    
+// additional delegate for when a tableView row (ie location title) selected
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        chosenTitle = titleArray[indexPath.row]     // pass over data to other ViewController (ie the map view)
+        chosenSubtitle = subtitleArray[indexPath.row]
+        chosenLatitude = Double(latitudeArray[indexPath.row])
+        chosenLongitude = Double(longitudeArray[indexPath.row])
+        
+        performSegue(withIdentifier: "toMapVC", sender: nil)
+        // aha! I missed this line in video but guessed later
+    }
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "toMapVC"
+        {
+            let destinationVC = segue.destination as! ViewController
+            // pass over/transmit data to the other ViewController
+            destinationVC.transmittedTitle = self.chosenTitle
+            destinationVC.transmittedSubtitle = self.chosenSubtitle
+            destinationVC.transmittedLatitude = self.chosenLatitude
+            destinationVC.transmittedLongitude = self.chosenLongitude
+        }
+    }
+    
     
     @IBAction func addBtnClicked(_ sender: Any) {
         performSegue(withIdentifier: "toMapVC", sender: nil)

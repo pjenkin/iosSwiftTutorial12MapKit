@@ -17,8 +17,16 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     @IBOutlet weak var commentText: UITextField!
     
     
-    var chosenLatitude: Double = 0      // scope to class to use in various functions
-    var chosenLongitude: Double = 0      // scope to class to use in various functions
+    var chosenLatitude: Double = 0.0     // scope to class to use in various functions
+    var chosenLongitude: Double = 0.0      // scope to class to use in various functions
+    
+    // chosen... var prefix used above - (see 11-88 &c for convention of chosen... selected... variable name correspondence in ViewControllers) - so calling them transmitted... here (cf firstViewController) -  for passing data between ViewControllers
+    
+    var transmittedTitle = ""
+    var transmittedSubtitle = ""
+    var transmittedLatitude = 0.0
+    var transmittedLongitude = 0.0
+        
     
     
     @IBAction func saveBtnClicked(_ sender: Any) {
@@ -61,6 +69,23 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         let recognizer = UILongPressGestureRecognizer(target: self, action: #selector(ViewController.chooseLocation(gestureRecognizer:)))
         recognizer.minimumPressDuration = 3    // 3 seconds press
         mapView.addGestureRecognizer(recognizer)
+        
+        
+        if transmittedTitle != ""       // if being transmitted/passed data from another View Controller
+        {
+            let annotation = MKPointAnnotation()
+            let coordinate = CLLocationCoordinate2D(latitude: self.transmittedLatitude, longitude: self.transmittedLongitude)
+            annotation.coordinate = coordinate
+            annotation.title = self.transmittedTitle
+            annotation.subtitle = self.transmittedSubtitle
+            
+            self.mapView.addAnnotation(annotation)
+            
+            // update text field values displayed
+            self.nameText.text = self.transmittedTitle
+            self.commentText.text = self.transmittedSubtitle
+
+        }
         
     }
     
